@@ -1,0 +1,27 @@
+{
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5lSTqdWv2yknI/h+2fPFKFuYHuuf/8doAku2n7R01CgLYTYg/oq5zRw4ur9TCoNTV6qjnio6LFEzV43nRh3tAPLQptjQyPxJhmW6aUvX8rgorH/mGh5IUX3FfMEuQJvbw1TT087cG37EHaDTy3EGwnAT+LZ2PjHGAsgKnwEYiSJ/jFgLaA9T3GthlwovjnnmqAbaP5NhD2Q+RGzV0vRdDCcnFQRqjYHEHNtLRFymgAjwGgC/b8+uwZYVfgrdDoHzzoaT+0huYuX6VmY1dZWbJLqQOV7VnXRMnCJ2CkM994QgEXQcXdKiTl/atPDIA+OB1FUy/ILeqm5Yknn8L073AQIDAQAB",
+  "manifest_version": 3,
+  "name": "9–5 Reset",
+  "version": "1.0.0",
+  "description": "Calendar-aware micro-break reminders — short stretch and energy resets that fit the actual gaps in your workday.",
+  "permissions": ["identity", "notifications", "alarms", "storage"],
+  "host_permissions": ["https://www.googleapis.com/*", "https://dwjygnxecubtsxnelxpz.supabase.co/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>9–5 Reset</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div id="lang-switch" class="lang-switch">
+      <button id="lang-switch-btn" class="lang-switch-btn" aria-label="Language" title="Language">🌐</button>
+      <div id="lang-menu" class="lang-menu hidden">
+        <button class="lang-option" data-lang="en">English</button>
+        <button class="lang-option" data-lang="ru">Русский</button>
+      </div>
+    </div>
+    <div class="app">
+      <!-- Onboarding step 1: workday type -->
+      <section id="state-onb-workday" class="state">
+        <div class="giraffe-hero">
+          <img src="giraffe-neutral.png" alt="" class="giraffe" />
+        </div>
+        <h1 class="title">9–5 Reset</h1>
+        <p class="subtitle" data-i18n="onbWorkdaySubtitle">Let's set things up — 2 quick questions.</p>
+        <div class="card">
+          <div class="card-label" data-i18n="onbWorkdayLabel">What type of workday do you have?</div>
+          <div class="option-list" data-group="workday">
+            <button class="option-btn" data-value="office" data-i18n="workdayOffice">Office</button>
+            <button class="option-btn" data-value="remote" data-i18n="workdayRemote">Remote</button>
+            <button class="option-btn" data-value="hybrid" data-i18n="workdayHybrid">Hybrid</button>
+            <button class="option-btn" data-value="freelance" data-i18n="workdayFreelance">Freelance</button>
+            <button class="option-btn" data-value="student" data-i18n="workdayStudent">Student with desk work</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Onboarding step 2: pain points (multi-select) -->
+      <section id="state-onb-pain" class="state hidden">
+        <button class="back-btn onboarding-back-btn" data-i18n="backBtn">‹ Back</button>
+        <div class="giraffe-hero">
+          <img src="giraffe-neutral.png" alt="" class="giraffe" />
+        </div>
+        <h1 class="title">9–5 Reset</h1>
+        <p class="subtitle" data-i18n="onbPainSubtitle">Question 2 of 2 — select all that apply</p>
+        <div class="card">
+          <div class="card-label" data-i18n="onbPainLabel">What's your biggest desk-work problem?</div>
+          <div class="option-list" data-group="pain">
+            <button class="option-btn" data-value="neck-pain" data-i18n="painNeck">Neck pain</button>
+            <button class="option-btn" data-value="back-pain" data-i18n="painBack">Back pain</button>
+            <button class="option-btn" data-value="low-energy" data-i18n="painLowEnergy">Low energy</button>
+            <button class="option-btn" data-value="poor-posture" data-i18n="painPosture">Poor posture</button>
+            <button class="option-btn" data-value="no-time" data-i18n="painNoTime">No time to exercise</button>
+          </div>
+        </div>
+        <button id="pain-continue-btn" class="btn btn-primary btn-full" disabled data-i18n="continueBtn">
+          Continue
+        </button>
+      </section>
+
+      <!-- Onboarding step 3: connect calendar or set work hours manually -->
+      <section id="state-onb-setup" class="state hidden">
+        <button class="back-btn onboarding-back-btn" data-i18n="backBtn">‹ Back</button>
+        <div class="giraffe-hero">
+          <img src="giraffe-neutral.png" alt="" class="giraffe" />
+        </div>
+        <h1 class="title" data-i18n="onbSetupTitle">Almost done</h1>
+        <p class="subtitle" data-i18n="onbSetupSubtitle">How should we find your reset windows?</p>
+        <p class="body-text" data-i18n="onbSetupBody">
+          We read your calendar (read-only) to find natural gaps between
+          meetings. Nothing is shared or stored outside your browser.
+        </p>
+        <label class="checkbox-row">
+          <input type="checkbox" id="contact-optin" />
+          <span data-i18n="contactOptin">Email me occasional product updates (optional)</span>
+        </label>
+        <button id="connect-btn" class="btn btn-primary btn-full">
+          <span data-i18n="connectBtn">Connect Google calendar</span>
+          <span id="connect-btn-pro-badge" class="pro-badge hidden" data-i18n="accountProBadge">Pro</span>
+        </button>
+        <button id="manual-toggle-btn" class="btn btn-secondary btn-full" data-i18n="manualToggleBtn">
+          Set my work hours manually
+        </button>
+        <div id="manual-form" class="manual-form hidden">
+          <div class="time-row">
+            <label class="time-field">
+              <span data-i18n="manualStart">Start</span>
+              <input type="time" id="manual-start" value="09:00" />
+            </label>
+            <label class="time-field">
+              <span data-i18n="manualEnd">End</span>
+              <input type="time" id="manual-end" value="17:00" />
+            </label>
+          </div>
+          <div class="time-row">
+            <label class="time-field">
+              <span data-i18n="manualLunchStart">Lunch start</span>
+              <input type="time" id="manual-lunch-start" value="12:00" />
+            </label>
+            <label class="time-field">
+              <span data-i18n="manualLunchEnd">Lunch end</span>
+              <input type="time" id="manual-lunch-end" value="13:00" />
+            </label>
+          </div>
+          <label class="checkbox-row">
+            <input type="checkbox" id="manual-hourly" />
+            <span data-i18n="manualHourly">Reset every hour (instead of every 90 min)</span>
+          </label>
+          <button id="manual-save-btn" class="btn btn-primary btn-full" data-i18n="manualSaveBtn">
+            Save work hours
+          </button>
+        </div>
+        <button id="skip-btn" class="link-btn" data-i18n="skipBtn">
+          Use sample calendar (for testing)
+        </button>
+      </section>
+
+      <!-- Daily energy check, shown once per day before the today view -->
+      <section id="state-energy" class="state hidden">
+        <div class="giraffe-hero">
+          <img src="giraffe-neutral.png" alt="" class="giraffe" />
+        </div>
+        <h1 class="title" data-i18n="energyTitle">How's your energy?</h1>
+        <p class="subtitle" data-i18n="energySubtitle">We'll pick today's resets to match.</p>
+        <div class="option-list" data-group="energy">
+          <button class="option-btn" data-value="low" data-i18n="energyLow">Low — running on fumes</button>
+          <button class="option-btn" data-value="medium" data-i18n="energyMedium">Medium — steady</button>
+          <button class="option-btn" data-value="high" data-i18n="energyHigh">High — feeling great</button>
+        </div>
+      </section>
+
+      <!-- Sign-in step 1: email -->
+      <section id="state-signin-email" class="state hidden">
+        <button id="signin-back-btn" class="back-btn" data-i18n="backBtn">‹ Back</button>
+        <div class="giraffe-hero">
+          <img src="giraffe-neutral.png" alt="" class="giraffe" />
+        </div>
+        <h1 class="title" data-i18n="signinTitle">Sign in</h1>
+        <p class="subtitle" data-i18n="signinSubtitle">We'll email you a 6-digit code — no password needed.</p>
+        <div class="card">
+          <label class="time-field signin-field">
+            <span data-i18n="signinEmailLabel">Email</span>
+            <input type="email" id="signin-email-input" placeholder="you@example.com" autocomplete="email" />
+          </label>
+          <button id="signin-send-code-btn" class="btn btn-primary btn-full" data-i18n="signinSendCodeBtn">
+            Send code
+          </button>
+          <p id="signin-email-error" class="form-error hidden"></p>
+        </div>
+      </section>
+
+      <!-- Sign-in step 2: 6-digit code -->
+      <section id="state-signin-code" class="state hidden">
+        <button id="signin-code-back-btn" class="back-btn" data-i18n="backBtn">‹ Back</button>
+        <div class="giraffe-hero">
+          <img src="giraffe-neutral.png" alt="" class="giraffe" />
+        </div>
+        <h1 class="title" data-i18n="signinCodeTitle">Enter your code</h1>
+        <p id="signin-code-subtitle" class="subtitle"></p>
+        <div class="card">
+          <input
+            type="text"
+            id="signin-code-input"
+            class="code-input"
+            inputmode="numeric"
+            maxlength="8"
+            placeholder="123456"
+          />
+          <button id="signin-verify-code-btn" class="btn btn-primary btn-full" data-i18n="signinVerifyBtn">
+            Verify &amp; sign in
+          </button>
+          <button id="signin-resend-btn" class="link-btn" data-i18n="signinResendBtn">Resend code</button>
+          <p id="signin-code-error" class="form-error hidden"></p>
+        </div>
+      </section>
+
+      <!-- Calendar sync is a Pro feature: shown instead of launching OAuth -->
+      <section id="state-paywall-calendar" class="state hidden">
+        <button id="paywall-calendar-back-btn" class="back-btn" data-i18n="backBtn">‹ Back</button>
+        <div class="giraffe-hero">
+          <img src="giraffe-neutral.png" alt="" class="giraffe" />
+        </div>
+        <h1 class="title" data-i18n="paywallCalendarTitle">Calendar sync is a Pro feature</h1>
+        <p class="body-text" data-i18n="paywallCalendarBody">
+          Connecting your Google Calendar and seeing every reset window for the day is part of 9–5
+          Reset Pro. You can still use manual hours or the sample calendar for free.
+        </p>
+        <button id="paywall-calendar-unlock-btn" class="btn btn-primary btn-full" data-i18n="unlockProBtn">
+          Unlock with Pro
+        </button>
+      </section>
+
+      <!-- State 2: calendar connected, viewing today -->
+      <section id="state-today" class="state hidden">
+        <header class="header">
+          <span class="brand">9–5 Reset</span>
+          <div class="header-right" id="header-right">
+            <div id="mode-widget" class="mode-widget">
+              <button id="mode-badge" class="mode-badge" type="button"></button>
+              <div id="mode-panel" class="account-panel hidden">
+                <button id="mode-connect-btn" class="link-btn hidden" data-i18n="connectBtn">
+                  Connect Google calendar
+                </button>
+                <button id="mode-manual-toggle-btn" class="link-btn hidden" data-i18n="manualToggleBtn">
+                  Set my work hours manually
+                </button>
+                <div id="mode-manual-form" class="manual-form hidden">
+                  <div class="time-row">
+                    <label class="time-field">
+                      <span data-i18n="manualStart">Start</span>
+                      <input type="time" id="mode-manual-start" value="09:00" />
+                    </label>
+                    <label class="time-field">
+                      <span data-i18n="manualEnd">End</span>
+                      <input type="time" id="mode-manual-end" value="17:00" />
+                    </label>
+                  </div>
+                  <div class="time-row">
+                    <label class="time-field">
+                      <span data-i18n="manualLunchStart">Lunch start</span>
+                      <input type="time" id="mode-manual-lunch-start" value="12:00" />
+                    </label>
+                    <label class="time-field">
+                      <span data-i18n="manualLunchEnd">Lunch end</span>
+                      <input type="time" id="mode-manual-lunch-end" value="13:00" />
+                    </label>
+                  </div>
+                  <label class="checkbox-row">
+                    <input type="checkbox" id="mode-manual-hourly" />
+                    <span data-i18n="manualHourly">Reset every hour (instead of every 90 min)</span>
+                  </label>
+                  <button id="mode-manual-save-btn" class="btn btn-primary btn-full" data-i18n="manualSaveBtn">
+                    Save work hours
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="account-widget" class="account-widget">
+              <button id="account-btn" class="account-btn" type="button"></button>
+              <div id="account-panel" class="account-panel hidden">
+                <div id="account-email" class="account-email"></div>
+                <button id="account-upgrade-btn" class="link-btn hidden" data-i18n="upgradeBtn">
+                  Upgrade to Pro
+                </button>
+                <button id="account-manage-sub-btn" class="link-btn hidden" data-i18n="accountManageSubBtn">
+                  Manage subscription
+                </button>
+                <button id="account-signout-btn" class="link-btn hidden" data-i18n="accountSignOutBtn">
+                  Sign out
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div id="notif-permission-banner" class="notif-permission-banner hidden">
+          <p class="body-text" data-i18n="notifBlockedBody">
+            Notifications are blocked, so reset reminders won't reach you.
+          </p>
+          <button id="notif-permission-btn" class="link-btn" data-i18n="notifBlockedBtn">
+            Enable notifications
+          </button>
+        </div>
+
+        <div class="card countdown-card">
+          <div class="card-label" data-i18n="nextResetLabel">Next reset</div>
+          <div id="countdown-value" class="countdown-value">—</div>
+          <div id="countdown-sub" class="countdown-sub"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-label" data-i18n="upcomingSessionsLabel">Upcoming sessions</div>
+          <ul id="session-list" class="session-list"></ul>
+          <div id="session-list-upsell" class="upsell-cta hidden">
+            <p class="body-text" data-i18n="sessionUpsellBody">Unlock every reset window for today.</p>
+            <button id="session-upsell-btn" class="btn btn-primary btn-full" data-i18n="unlockProBtn">
+              Unlock with Pro
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label" data-i18n="resetAnytimeLabel">Reset anytime</div>
+          <p class="body-text" data-i18n="resetAnytimeBody">
+            Need a break right now? Pick a stretch — no matter what's on the
+            schedule.
+          </p>
+          <div class="exercise-quick-list">
+            <button class="exercise-quick-btn" data-category="neck">
+              <span class="exercise-quick-icon">🙆</span>
+              <span data-i18n="quickNeck">Neck</span>
+            </button>
+            <button class="exercise-quick-btn" data-category="back">
+              <span class="exercise-quick-icon">🔁</span>
+              <span data-i18n="quickBack">Back</span>
+            </button>
+            <button class="exercise-quick-btn" data-category="posture">
+              <span class="exercise-quick-icon">💪</span>
+              <span data-i18n="quickPosture">Posture</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="nudge-bar">
+          <span class="nudge-icon">🧍</span>
+          <span data-i18n="nudgeText">Stand and stretch every hour, even between scheduled resets.</span>
+        </div>
+      </section>
+
+      <!-- State 3: session active -->
+      <section id="state-session" class="state hidden">
+        <div class="session-card">
+          <img src="giraffe-neutral.png" alt="" class="giraffe giraffe-session" />
+          <div id="session-progress" class="session-progress hidden"></div>
+          <h2 id="exercise-name" class="exercise-name">Neck side tilt</h2>
+          <p id="exercise-instruction" class="exercise-instruction">
+            Sit tall, slowly tilt your right ear toward your right shoulder.
+            Hold 20 seconds each side.
+          </p>
+          <div class="session-timer">
+            <svg class="session-timer-ring" viewBox="0 0 100 100">
+              <circle class="session-timer-track" cx="50" cy="50" r="45" />
+              <circle id="session-timer-progress" class="session-timer-progress" cx="50" cy="50" r="45" />
+            </svg>
+            <span id="session-timer-value" class="session-timer-value">5:00</span>
+          </div>
+          <div class="session-controls">
+            <button id="session-back-btn" class="btn btn-secondary" data-i18n="backBtn">‹ Back</button>
+            <button id="session-next-btn" class="btn btn-primary">Next ›</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- State 4: session complete -->
+      <section id="state-session-done" class="state hidden">
+        <div class="session-card">
+          <img src="giraffe-neutral.png" alt="" class="giraffe giraffe-session" />
+          <h2 class="title" data-i18n="doneTitle">Good job!</h2>
+          <p class="body-text" data-i18n="doneBody">You took your reset. Time to get back to it.</p>
+          <button id="session-done-back-btn" class="btn btn-primary btn-full" data-i18n="doneBackBtn">
+            Go back to work
+          </button>
+        </div>
+      </section>
+    </div>
+    <script src="i18n.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,689 @@
+:root {
+  --text: #33302b;
+  --text-secondary: #9a8f80;
+  --text-muted: #6f6459;
+  --background: #faf8f3;
+  --background-element: #f1ede4;
+  --background-selected: #fbe9c6;
+  --card: #ffffff;
+  --border: #e7e1d4;
+  --tint: #e0a937;
+  --tint-light: #efc368;
+  --accent-text: #9c5f2e;
+  --font-display: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #f5f0e8;
+    --text-secondary: #b3a695;
+    --text-muted: #cbbfae;
+    --background: #201b15;
+    --background-element: #2c2520;
+    --background-selected: #3d3120;
+    --card: #2a2520;
+    --border: #44392d;
+    --tint: #f0c14b;
+    --tint-light: #f5d685;
+    --accent-text: #e0a45c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  width: 360px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  position: relative;
+}
+
+/* --- Language switcher --- */
+.lang-switch {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 50;
+}
+
+/* Applied when the today view's header is showing — popup.js moves the
+   #lang-switch node into .header-right so it's a real flex sibling of
+   mode-badge/account-btn and lines up with them via align-items: center,
+   instead of floating at a fixed pixel position independent of the row. */
+.lang-switch--inline {
+  position: relative;
+  top: auto;
+  right: auto;
+}
+
+.lang-switch--inline .lang-switch-btn {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+}
+
+.lang-switch-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.lang-switch-btn:hover {
+  background: var(--background-selected);
+}
+
+.lang-menu {
+  position: absolute;
+  top: 34px;
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  min-width: 110px;
+}
+
+.lang-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.lang-option:hover {
+  background: var(--background-selected);
+}
+
+.lang-option.active {
+  font-weight: 700;
+  color: var(--accent-text);
+}
+
+.app {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* --- Connect state --- */
+.giraffe-hero {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+.giraffe {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.body-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--tint);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--tint-light);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--accent-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px;
+  font-family: inherit;
+  align-self: center;
+}
+
+.back-btn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  font-family: inherit;
+}
+
+.back-btn:hover {
+  color: var(--text);
+}
+
+.btn-secondary {
+  background: var(--background-element);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--background-selected);
+}
+
+/* --- Onboarding option lists --- */
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--background-element);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.1s ease, border-color 0.1s ease;
+}
+
+.option-btn:hover {
+  background: var(--background-selected);
+}
+
+.option-btn.selected {
+  background: var(--background-selected);
+  border-color: var(--tint);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* --- Manual schedule form --- */
+.manual-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.time-row {
+  display: flex;
+  gap: 10px;
+}
+
+.time-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.time-field input[type='time'] {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+/* --- Today state --- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.mode-widget {
+  position: relative;
+}
+
+.mode-badge {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--background-element);
+  border: none;
+  padding: 3px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.card-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.countdown-card {
+  text-align: center;
+}
+
+.countdown-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--tint);
+}
+
+.countdown-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.session-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 8px 10px;
+  background: var(--background-element);
+  border-radius: 10px;
+}
+
+.session-item.empty {
+  color: var(--text-secondary);
+  justify-content: center;
+}
+
+.session-time {
+  color: var(--text-secondary);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.nudge-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--background-selected);
+  color: var(--accent-text);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.nudge-icon {
+  font-size: 16px;
+}
+
+/* --- Reset anytime (quick-start buttons) --- */
+.exercise-quick-list {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.exercise-quick-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--background-element);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.1s ease, border-color 0.1s ease;
+}
+
+.exercise-quick-btn:hover {
+  background: var(--background-selected);
+  border-color: var(--tint);
+}
+
+.exercise-quick-icon {
+  font-size: 20px;
+}
+
+/* --- Session state --- */
+.session-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.giraffe-session {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.session-progress {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: -4px 0 -8px;
+}
+
+.exercise-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.exercise-instruction {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.session-timer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.session-timer-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.session-timer-track {
+  fill: none;
+  stroke: var(--background-element);
+  stroke-width: 8;
+}
+
+.session-timer-progress {
+  fill: none;
+  stroke: var(--tint);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.session-timer-value {
+  position: absolute;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.session-controls {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.session-controls .btn {
+  flex: 1;
+}
+
+/* --- Header account widget --- */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.account-widget {
+  position: relative;
+}
+
+.account-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-text);
+  background: var(--background-element);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.account-btn:hover {
+  background: var(--background-selected);
+}
+
+.account-panel {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  z-index: 40;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.account-email {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  word-break: break-all;
+  margin-bottom: 2px;
+}
+
+.account-panel .link-btn {
+  align-self: stretch;
+  text-align: left;
+}
+
+/* --- Pro badges / sign-in form / paywall --- */
+.pro-badge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  padding: 2px 6px;
+  vertical-align: middle;
+}
+
+.signin-field input,
+.code-input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.code-input {
+  text-align: center;
+  letter-spacing: 0.15em;
+  font-size: 18px;
+}
+
+.form-error {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #c0392b;
+  text-align: center;
+}
+
+.notif-permission-banner {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fdf2e3;
+  border: 1px solid #f0c987;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+}
+
+.notif-permission-banner .body-text {
+  margin: 0;
+  font-size: 12px;
+  color: #8a5a14;
+}
+
+.notif-permission-banner .link-btn {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.upsell-cta {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.session-item-locked {
+  position: relative;
+  color: transparent;
+  user-select: none;
+}
+
+.session-item-locked::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+  background: var(--background-element);
+  opacity: 0.9;
+}
